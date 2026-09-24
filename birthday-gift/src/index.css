@@ -1,0 +1,60 @@
+:root {
+  color-scheme: light;
+  --rose-deep: #6d3344;
+  --rose-soft: #f6d5de;
+  --cream: #fff8f7;
+  --serif: 'Cormorant Garamond', Palatino, 'Palatino Linotype', Georgia, serif;
+  --sans: 'Outfit', 'Segoe UI', sans-serif;
+  font-family: var(--sans);
+  color: var(--rose-deep);
+  background: #f3c2d0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+p {
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

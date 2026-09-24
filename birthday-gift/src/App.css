@@ -1,0 +1,369 @@
+.stage {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 50% -10%, #fff7f8 0%, transparent 52%),
+    radial-gradient(80% 60% at 100% 100%, rgba(196, 92, 122, 0.28), transparent 52%),
+    radial-gradient(60% 45% at 0% 80%, rgba(255, 214, 224, 0.8), transparent 48%),
+    linear-gradient(180deg, #f8d7e1 0%, #f3c3d1 46%, #e8aebf 100%);
+}
+
+.stage::before,
+.stage::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(36px);
+}
+
+.stage::before {
+  width: 48vw;
+  height: 48vw;
+  top: -12vw;
+  left: -12vw;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.stage::after {
+  width: 54vw;
+  height: 54vw;
+  right: -14vw;
+  bottom: -16vw;
+  background: rgba(214, 120, 146, 0.28);
+}
+
+.passcode-screen,
+.loading-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.passcode-screen {
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 5vw, 72px);
+  padding:
+    max(16px, env(safe-area-inset-top))
+    clamp(16px, 4vw, 48px)
+    max(18px, env(safe-area-inset-bottom));
+  animation: screen-in 0.7s ease both;
+}
+
+.passcode-screen.is-exiting {
+  animation: screen-leave 0.68s ease forwards;
+  pointer-events: none;
+}
+
+.passcode-portrait-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.portrait-frame {
+  position: relative;
+}
+
+.passcode-portrait {
+  display: block;
+  width: min(38vw, 250px);
+  height: min(52dvh, 360px);
+  object-fit: cover;
+  object-position: center 18%;
+  border-radius: 46% 46% 42% 42% / 36% 36% 32% 32%;
+  box-shadow:
+    0 0 0 6px rgba(255, 250, 251, 0.78),
+    0 18px 40px rgba(120, 48, 70, 0.22);
+}
+
+.pink-bow {
+  position: absolute;
+  top: -28px;
+  left: -26px;
+  width: clamp(64px, 16vw, 92px);
+  height: auto;
+  z-index: 2;
+  transform: rotate(-16deg);
+  filter: drop-shadow(0 6px 8px rgba(140, 60, 84, 0.22));
+  pointer-events: none;
+}
+
+.birthday-line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(22px, 4.2vw, 34px);
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: #7a3d50;
+}
+
+.passcode-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(12px, 2vh, 18px);
+}
+
+.passcode-label {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(20px, 5vw, 28px);
+  letter-spacing: 0.04em;
+  color: #7a3d50;
+}
+
+.passcode-dots {
+  display: flex;
+  gap: 16px;
+  height: 18px;
+  align-items: center;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(109, 51, 68, 0.55);
+  background: transparent;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.dot.is-filled {
+  background: var(--rose-deep);
+  border-color: var(--rose-deep);
+  animation: dot-pop 0.32s ease;
+}
+
+.passcode-screen.is-shaking .passcode-dots {
+  animation: shake 0.46s ease;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, clamp(66px, 20vw, 80px));
+  gap: clamp(12px, 2.4vh, 18px);
+  margin-top: 4px;
+}
+
+.key {
+  width: clamp(66px, 20vw, 80px);
+  height: clamp(66px, 20vw, 80px);
+  border-radius: 50%;
+  background: rgba(255, 248, 247, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 8px 18px rgba(140, 60, 84, 0.08);
+  backdrop-filter: blur(8px);
+  font-size: clamp(26px, 6vw, 32px);
+  font-weight: 300;
+  display: grid;
+  place-items: center;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.key:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.key-spacer {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.key-delete {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.key-delete svg {
+  width: 28px;
+  height: 22px;
+}
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  animation: screen-enter 0.8s ease both;
+}
+
+.loading-screen.is-exiting {
+  animation: screen-leave 0.7s ease forwards;
+  pointer-events: none;
+}
+
+.loading-date {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(42px, 10vw, 78px);
+  letter-spacing: 0.12em;
+  line-height: 1;
+  color: #6a3140;
+}
+
+.loading-heart {
+  width: min(92px, 24vw);
+  height: auto;
+  overflow: visible;
+}
+
+.loading-heart path {
+  fill: transparent;
+  stroke: #c45b78;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation:
+    draw-heart 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.35s forwards,
+    fill-heart 0.7s ease 2.2s forwards;
+}
+
+@keyframes screen-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes screen-leave {
+  to {
+    opacity: 0;
+    transform: scale(1.03);
+    filter: blur(8px);
+  }
+}
+
+@keyframes screen-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dot-pop {
+  0% {
+    transform: scale(0.55);
+  }
+  60% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(7px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes draw-heart {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fill-heart {
+  to {
+    fill: #e989a6;
+  }
+}
+
+@media (hover: hover) {
+  .key:hover {
+    background: rgba(255, 255, 255, 0.66);
+  }
+
+  .key-delete:hover {
+    background: transparent;
+  }
+}
+
+@media (max-width: 720px) {
+  .passcode-screen {
+    gap: 14px;
+    padding-inline: 12px;
+  }
+
+  .passcode-portrait {
+    width: min(40vw, 168px);
+    height: min(42dvh, 250px);
+  }
+
+  .pink-bow {
+    top: -18px;
+    left: -16px;
+    width: 62px;
+  }
+
+  .birthday-line {
+    font-size: 18px;
+  }
+
+  .key {
+    width: clamp(48px, 13vw, 64px);
+    height: clamp(48px, 13vw, 64px);
+    font-size: 22px;
+  }
+
+  .keypad {
+    grid-template-columns: repeat(3, clamp(48px, 13vw, 64px));
+    gap: 10px;
+  }
+
+  .key-delete svg {
+    width: 22px;
+    height: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .passcode-screen,
+  .passcode-screen.is-exiting,
+  .loading-screen,
+  .dot.is-filled,
+  .passcode-screen.is-shaking .passcode-dots {
+    animation: none;
+  }
+
+  .loading-heart path {
+    animation: none;
+    stroke-dashoffset: 0;
+    fill: #e989a6;
+  }
+}

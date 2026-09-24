@@ -1,0 +1,189 @@
+.baby-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #000;
+  overflow: hidden;
+  animation: screen-enter 1.2s ease both;
+  transition: background 1.6s ease;
+}
+
+.baby-screen.is-lit {
+  background: #2a111a;
+}
+
+.baby-screen.is-exiting {
+  animation: screen-leave 0.8s ease forwards;
+  pointer-events: none;
+}
+
+.baby-photos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.baby-photo-slot {
+  position: absolute;
+  width: clamp(56px, 12vw, 104px);
+  height: clamp(72px, 15vw, 128px);
+  opacity: 0;
+  z-index: 1;
+}
+
+.baby-photo-slot.is-shown {
+  animation: photo-in 0.8s ease forwards, photo-float var(--float, 5.2s) ease-in-out infinite 0.8s;
+}
+
+.baby-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.88),
+    0 10px 18px rgba(0, 0, 0, 0.35);
+}
+
+.baby-center {
+  position: absolute;
+  inset: 24% 16%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.baby-text {
+  max-width: 16em;
+  margin: 0;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: clamp(24px, 5.5vw, 42px);
+  line-height: 1.35;
+  color: #fce8ee;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+}
+
+.baby-text.is-on {
+  animation: text-glow-in 1.4s ease forwards;
+}
+
+.baby-heart {
+  display: inline-block;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+.baby-scroll-cue {
+  position: absolute;
+  bottom: max(32px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(252, 232, 238, 0.8);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 4vw, 20px);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 3;
+}
+
+.baby-scroll-cue.is-visible {
+  opacity: 1;
+}
+
+.baby-scroll-cue svg {
+  width: 24px;
+  height: 24px;
+  animation: bounce-down 2s infinite;
+}
+
+@keyframes photo-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes photo-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -7px;
+  }
+}
+
+@keyframes text-glow-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.25);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.25);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-down {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(8px);
+  }
+  60% {
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baby-screen,
+  .baby-screen.is-exiting,
+  .baby-photo-slot,
+  .baby-photo-slot.is-shown,
+  .baby-text,
+  .baby-text.is-on {
+    animation: none;
+  }
+
+  .baby-screen.is-lit .baby-photo-slot,
+  .baby-text.is-on {
+    opacity: 1;
+  }
+  .baby-heart,
+  .baby-scroll-cue svg {
+    animation: none;
+  }
+}

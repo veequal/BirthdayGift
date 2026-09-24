@@ -1,0 +1,327 @@
+.letter-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding:
+    max(16px, env(safe-area-inset-top))
+    16px
+    max(16px, env(safe-area-inset-bottom));
+  overflow: auto;
+  animation: screen-enter 0.8s ease both;
+}
+
+.letter-screen.is-exiting {
+  animation: screen-leave 0.7s ease forwards;
+  pointer-events: none;
+}
+
+.letter-note {
+  min-height: 2.6em;
+  margin: 0;
+  max-width: min(92vw, 34rem);
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(16px, 4.2vw, 22px);
+  line-height: 1.3;
+  color: #7a3d50;
+}
+
+.letter-note:empty {
+  min-height: 0;
+}
+
+.letter-frame {
+  position: relative;
+  width: min(100%, 680px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 58px 12px 54px;
+  perspective: 1400px;
+}
+
+.letter-frame.is-shaking {
+  animation: letter-shake 0.46s ease;
+}
+
+.letter-frame.is-moving.is-step-0 .letter-sheet {
+  animation: paper-shift 0.7s ease;
+}
+
+.fold-hint {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 46%;
+  color: #7a3d50;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(13px, 3.2vw, 16px);
+  line-height: 1.15;
+  background: transparent;
+}
+
+.fold-hint-top-left {
+  top: 4px;
+  left: 2px;
+}
+
+.fold-hint-top-right {
+  top: 4px;
+  right: 2px;
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.fold-hint-bottom-left {
+  bottom: 0;
+  left: 2px;
+}
+
+.fold-hint-bottom-right {
+  bottom: 0;
+  right: 2px;
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.fold-arrow {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+
+.letter-sheet {
+  position: relative;
+  width: min(64vw, 280px);
+  height: 168px;
+  transform-style: preserve-3d;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 28%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(186, 150, 140, 0.035) 0 2px,
+      transparent 2px 5px
+    ),
+    #f7f1ea;
+  border-radius: 3px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 16px 34px rgba(120, 48, 70, 0.18),
+    4px 6px 0 rgba(236, 214, 206, 0.9);
+  transition:
+    width 0.75s ease,
+    height 0.75s ease,
+    transform 0.75s ease;
+}
+
+.letter-frame.is-step-0 .letter-sheet {
+  transform: rotate(-1.1deg);
+}
+
+.letter-frame.is-step-1 .letter-sheet {
+  width: min(76vw, 390px);
+  height: 250px;
+  transform: rotate(0.7deg);
+}
+
+.letter-frame.is-step-2 .letter-sheet {
+  width: min(86vw, 480px);
+  height: 340px;
+  transform: rotate(-0.4deg);
+}
+
+.letter-frame.is-step-3 .letter-sheet {
+  width: min(92vw, 560px);
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  transform: none;
+}
+
+.letter-flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 54%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 40%),
+    linear-gradient(160deg, #fbf7f2, #f0e2da);
+  backface-visibility: hidden;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 18px rgba(110, 50, 68, 0.08);
+}
+
+.letter-flap-top {
+  top: 0;
+  transform-origin: center bottom;
+  border-bottom: 1px solid rgba(150, 100, 110, 0.18);
+}
+
+.letter-flap-bottom {
+  bottom: 0;
+  height: 50%;
+  transform-origin: center top;
+  border-top: 1px solid rgba(150, 100, 110, 0.16);
+}
+
+.letter-frame.is-step-1 .letter-flap-top {
+  transform: rotateX(-128deg);
+}
+
+.letter-frame.is-step-2 .letter-flap-top {
+  transform: rotateX(-168deg);
+}
+
+.letter-frame.is-step-2 .letter-flap-bottom {
+  transform: rotateX(132deg);
+}
+
+.letter-frame.is-step-3 .letter-flap,
+.letter-frame.is-step-3 .letter-crease {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.letter-crease {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 50%;
+  height: 1px;
+  background: rgba(130, 80, 90, 0.22);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  z-index: 2;
+}
+
+.letter-copy {
+  position: relative;
+  z-index: 1;
+  padding: clamp(22px, 5vw, 40px) clamp(18px, 4.5vw, 36px);
+  color: #5c3140;
+  font-family: var(--serif);
+  font-size: clamp(17px, 4.1vw, 21px);
+  line-height: 1.55;
+  animation: letter-reveal 0.8s ease both;
+}
+
+.letter-copy p {
+  margin: 0 0 0.9em;
+}
+
+.letter-copy p:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes letter-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px) rotate(-0.4deg);
+  }
+  40% {
+    transform: translateX(5px) rotate(0.35deg);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes paper-shift {
+  0% {
+    transform: rotate(-1deg) translateY(0);
+  }
+  40% {
+    transform: rotate(1.1deg) translateY(-5px);
+  }
+  100% {
+    transform: rotate(0.2deg) translateY(0);
+  }
+}
+
+@keyframes letter-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.read-button {
+  position: absolute;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  right: max(24px, env(safe-area-inset-right));
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(120, 48, 70, 0.12);
+  color: #7a3d50;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(15px, 3.8vw, 18px);
+  padding: 8px 16px;
+  border-radius: 6px;
+  animation: letter-reveal 0.8s ease 0.4s both;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.read-button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.read-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .letter-frame {
+    padding: 52px 4px 48px;
+  }
+
+  .fold-hint {
+    max-width: 44%;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .fold-arrow {
+    width: 18px;
+    height: 18px;
+  }
+
+  .letter-frame.is-step-0 .letter-sheet {
+    width: min(58vw, 220px);
+    height: 142px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter-screen,
+  .letter-frame.is-shaking,
+  .letter-frame.is-moving .letter-sheet,
+  .letter-copy {
+    animation: none;
+  }
+
+  .letter-sheet,
+  .letter-flap {
+    transition: none;
+  }
+}
