@@ -105,7 +105,7 @@ export default function LetterScreen({ exiting, onDone }) {
           <article className="letter-copy" hidden={step < 3}>
             <p>Dear Sarah,</p>
             <p>
-              We first talked on the 14th of April, and since that day, I had one goal in my head: to eventually marry the love of my life — you.
+              We first talked on the 7th of April, and since that day, I had one goal in my head: to eventually marry the love of my life — you.
             </p>
             <p>
               Today, you turn 18, and I want to wish a very happy birthday to my only woman in the world. ❤️
